@@ -8,6 +8,7 @@ struct CapoDettaglioView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var confermaEliminazione = false
     @State private var inElaborazione = false
+    @State private var scontornoDaRitoccare: ScontornoIdentificabile?
     @State private var errore: String?
 
     private var immagine: UIImage? {
@@ -56,6 +57,18 @@ struct CapoDettaglioView: View {
 
             Section {
                 if capo.fotoOriginale != nil {
+                    Button {
+                        Task { await preparaRitocco() }
+                    } label: {
+                        HStack {
+                            Label("Ritocca lo scontorno", systemImage: "eraser")
+                            if inElaborazione {
+                                Spacer()
+                                ProgressView()
+                            }
+                        }
+                    }
+                    .disabled(inElaborazione)
                     Button {
                         ripristinaOriginale()
                     } label: {
@@ -110,6 +123,11 @@ struct CapoDettaglioView: View {
         } message: {
             Text("Verrà tolto anche dagli outfit che lo contengono.")
         }
+        .fullScreenCover(item: $scontornoDaRitoccare) { elemento in
+            RitoccoView(ritaglio: elemento.valore.ritaglio, originale: elemento.valore.originale) { nuovo in
+                Task { await salvaRitocco(nuovo) }
+            }
+        }
         .alert("Qualcosa è andato storto",
                isPresented: Binding(get: { errore != nil }, set: { if !$0 { errore = nil } })) {
             Button("OK", role: .cancel) {}
@@ -138,6 +156,38 @@ struct CapoDettaglioView: View {
         }
     }
 
+    /// Ricalcola lo scontorno automatico dalla foto originale e apre il ritocco a mano.
+    private func preparaRitocco() async {
+        guard let dati = capo.fotoOriginale, let foto = UIImage(data: dati) else { return }
+        inElaborazione = true
+        defer { inElaborazione = false }
+        do {
+            let scontorno = try await Task.detached(priority: .userInitiated) {
+                try Scontorno.scontorna(foto)
+            }.value
+            scontornoDaRitoccare = ScontornoIdentificabile(valore: scontorno)
+        } catch {
+            errore = "Non sono riuscito a ricalcolare lo scontorno di questa foto."
+        }
+    }
+
+    private func salvaRitocco(_ immagine: UIImage) async {
+        do {
+            let risultato = try await Task.detached(priority: .userInitiated) {
+                guard let ritagliata = ImageProcessing.ritagliaAiBordi(immagine) else {
+                    throw Scontorno.Errore.nessunSoggetto
+                }
+                return try ImageProcessing.prepara(ritagliata, trasparente: true)
+            }.value
+            withAnimation {
+                capo.foto = risultato.foto
+                capo.miniatura = risultato.miniatura
+            }
+        } catch {
+            errore = "Hai cancellato tutto il capo: tengo lo scontorno di prima."
+        }
+    }
+
     private func ripristinaOriginale() {
         guard let dati = capo.fotoOriginale, let foto = UIImage(data: dati),
               let risultato = try? ImageProcessing.prepara(foto) else { return }
@@ -147,4 +197,10 @@ struct CapoDettaglioView: View {
             capo.fotoOriginale = nil
         }
     }
+}
+
+/// Involucro per presentare uno scontorno con `fullScreenCover(item:)`.
+private struct ScontornoIdentificabile: Identifiable {
+    let id = UUID()
+    let valore: RisultatoScontorno
 }

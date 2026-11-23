@@ -39,6 +39,19 @@ enum ImageProcessing {
         ridimensiona(immagine, latoMassimo: latoMassimoFoto).jpegData(compressionQuality: 0.8)
     }
 
+    /// Ritaglia un'immagine trasparente attorno alla parte visibile, con un piccolo margine.
+    /// Restituisce nil se l'immagine è tutta trasparente.
+    static func ritagliaAiBordi(_ immagine: UIImage, margine: CGFloat = 0.03) -> UIImage? {
+        guard let cgImage = immagine.cgImage, let rettangolo = Maschera.rettangoloOpaco(cgImage) else { return nil }
+        let bordo = max(rettangolo.width, rettangolo.height) * margine
+        let conMargine = rettangolo
+            .insetBy(dx: -bordo, dy: -bordo)
+            .intersection(CGRect(x: 0, y: 0, width: cgImage.width, height: cgImage.height))
+            .integral
+        guard let ritagliata = cgImage.cropping(to: conMargine) else { return nil }
+        return UIImage(cgImage: ritagliata)
+    }
+
     /// Ridimensiona mantenendo le proporzioni, senza mai ingrandire.
     /// Applica anche l'orientamento EXIF, così la foto salvata è sempre dritta.
     static func ridimensiona(_ immagine: UIImage, latoMassimo: CGFloat) -> UIImage {
