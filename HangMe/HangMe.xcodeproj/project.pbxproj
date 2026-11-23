@@ -1,0 +1,458 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		086F347A217710C7002CF6EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086F3479217710C7002CF6EA /* AppDelegate.swift */; };
+		086F347C217710C7002CF6EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086F347B217710C7002CF6EA /* ViewController.swift */; };
+		086F347F217710C7002CF6EA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 086F347D217710C7002CF6EA /* Main.storyboard */; };
+		086F3481217710CB002CF6EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 086F3480217710CB002CF6EA /* Assets.xcassets */; };
+		086F3484217710CB002CF6EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 086F3482217710CB002CF6EA /* LaunchScreen.storyboard */; };
+		086F348C21771162002CF6EA /* Deeplab.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 086F348B21771162002CF6EA /* Deeplab.mlmodel */; };
+		086F349021771B58002CF6EA /* UIImage+Segmentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086F348F21771B58002CF6EA /* UIImage+Segmentation.swift */; };
+		086F349A21782BB4002CF6EA /* GraySegmentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086F349921782BB4002CF6EA /* GraySegmentFilter.swift */; };
+		086F349C21789912002CF6EA /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086F349B21789912002CF6EA /* test.jpg */; };
+		34364878240F061F00B22B85 /* ViewControllerTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34364877240F061F00B22B85 /* ViewControllerTutorial.swift */; };
+		761D72B7240D60F50086D2CE /* NuovoVestito.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761D72B6240D60F50086D2CE /* NuovoVestito.swift */; };
+		7657F265240EC83400B58112 /* tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7657F264240EC83400B58112 /* tutorial.swift */; };
+		76A0384A240A70E3003E27B8 /* unnamed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 76A03849240A70E3003E27B8 /* unnamed.jpg */; };
+		76A0384C240A7125003E27B8 /* Palermo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 76A0384B240A7125003E27B8 /* Palermo.jpg */; };
+		76A0384E240A721A003E27B8 /* Palermo2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 76A0384D240A721A003E27B8 /* Palermo2.jpeg */; };
+		76A03855240A73CC003E27B8 /* Palermo3.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 76A03854240A73CC003E27B8 /* Palermo3.JPG */; };
+		76A03857240A73D5003E27B8 /* gucci.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 76A03856240A73D5003E27B8 /* gucci.PNG */; };
+		76A0385A240A9A35003E27B8 /* deeplab-ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 76A03858240A9A35003E27B8 /* deeplab-ios.xcdatamodeld */; };
+		76A0387F240A9E7B003E27B8 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0387E240A9E7B003E27B8 /* DatabaseHelper.swift */; };
+		76B0AC11240EB63500CC027E /* EliminaVestito.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0AC10240EB63500CC027E /* EliminaVestito.swift */; };
+		76C6403A240BD106002F6183 /* Maglie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C64039240BD106002F6183 /* Maglie.swift */; };
+		76C6403C240BD116002F6183 /* Pantaloni.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C6403B240BD116002F6183 /* Pantaloni.swift */; };
+		76C6403E240BD126002F6183 /* Scarpe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C6403D240BD126002F6183 /* Scarpe.swift */; };
+		76FBFE92240C061D004449FB /* NuovoOutfit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBFE91240C061D004449FB /* NuovoOutfit.swift */; };
+		76FBFE94240C0AE1004449FB /* Outfit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBFE93240C0AE1004449FB /* Outfit.swift */; };
+		76FBFE96240C0B5D004449FB /* OutfitSalvati.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBFE95240C0B5D004449FB /* OutfitSalvati.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		086F3476217710C7002CF6EA /* HangMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HangMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		086F3479217710C7002CF6EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		086F347B217710C7002CF6EA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		086F347E217710C7002CF6EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		086F3480217710CB002CF6EA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		086F3483217710CB002CF6EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		086F3485217710CB002CF6EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		086F348B21771162002CF6EA /* Deeplab.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Deeplab.mlmodel; sourceTree = SOURCE_ROOT; };
+		086F348F21771B58002CF6EA /* UIImage+Segmentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Segmentation.swift"; sourceTree = "<group>"; };
+		086F349921782BB4002CF6EA /* GraySegmentFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraySegmentFilter.swift; sourceTree = "<group>"; };
+		086F349B21789912002CF6EA /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test.jpg; sourceTree = "<group>"; };
+		34364877240F061F00B22B85 /* ViewControllerTutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTutorial.swift; sourceTree = "<group>"; };
+		761D72B6240D60F50086D2CE /* NuovoVestito.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuovoVestito.swift; sourceTree = "<group>"; };
+		761D72B8240D624B0086D2CE /* deeplab-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "deeplab-ios-Bridging-Header.h"; sourceTree = "<group>"; };
+		7657F264240EC83400B58112 /* tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tutorial.swift; sourceTree = "<group>"; };
+		76A03849240A70E3003E27B8 /* unnamed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = unnamed.jpg; sourceTree = "<group>"; };
+		76A0384B240A7125003E27B8 /* Palermo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Palermo.jpg; sourceTree = "<group>"; };
+		76A0384D240A721A003E27B8 /* Palermo2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Palermo2.jpeg; sourceTree = "<group>"; };
+		76A03854240A73CC003E27B8 /* Palermo3.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Palermo3.JPG; sourceTree = "<group>"; };
+		76A03856240A73D5003E27B8 /* gucci.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gucci.PNG; sourceTree = "<group>"; };
+		76A03859240A9A35003E27B8 /* Vestiti.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Vestiti.xcdatamodel; sourceTree = "<group>"; };
+		76A0387E240A9E7B003E27B8 /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
+		76B0AC10240EB63500CC027E /* EliminaVestito.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EliminaVestito.swift; sourceTree = "<group>"; };
+		76C64039240BD106002F6183 /* Maglie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maglie.swift; sourceTree = "<group>"; };
+		76C6403B240BD116002F6183 /* Pantaloni.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pantaloni.swift; sourceTree = "<group>"; };
+		76C6403D240BD126002F6183 /* Scarpe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scarpe.swift; sourceTree = "<group>"; };
+		76FBFE91240C061D004449FB /* NuovoOutfit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuovoOutfit.swift; sourceTree = "<group>"; };
+		76FBFE93240C0AE1004449FB /* Outfit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Outfit.swift; sourceTree = "<group>"; };
+		76FBFE95240C0B5D004449FB /* OutfitSalvati.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutfitSalvati.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		086F3473217710C7002CF6EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		086F346D217710C7002CF6EA = {
+			isa = PBXGroup;
+			children = (
+				086F3478217710C7002CF6EA /* deeplab-ios */,
+				086F3477217710C7002CF6EA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		086F3477217710C7002CF6EA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				086F3476217710C7002CF6EA /* HangMe.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		086F3478217710C7002CF6EA /* deeplab-ios */ = {
+			isa = PBXGroup;
+			children = (
+				086F347D217710C7002CF6EA /* Main.storyboard */,
+				086F3482217710CB002CF6EA /* LaunchScreen.storyboard */,
+				76A03851240A72EB003E27B8 /* foto */,
+				086F3479217710C7002CF6EA /* AppDelegate.swift */,
+				086F347B217710C7002CF6EA /* ViewController.swift */,
+				34364877240F061F00B22B85 /* ViewControllerTutorial.swift */,
+				76FBFE91240C061D004449FB /* NuovoOutfit.swift */,
+				761D72B6240D60F50086D2CE /* NuovoVestito.swift */,
+				76FBFE95240C0B5D004449FB /* OutfitSalvati.swift */,
+				086F348F21771B58002CF6EA /* UIImage+Segmentation.swift */,
+				086F349921782BB4002CF6EA /* GraySegmentFilter.swift */,
+				76A0387E240A9E7B003E27B8 /* DatabaseHelper.swift */,
+				76C64039240BD106002F6183 /* Maglie.swift */,
+				76C6403B240BD116002F6183 /* Pantaloni.swift */,
+				76C6403D240BD126002F6183 /* Scarpe.swift */,
+				76FBFE93240C0AE1004449FB /* Outfit.swift */,
+				76B0AC10240EB63500CC027E /* EliminaVestito.swift */,
+				086F348B21771162002CF6EA /* Deeplab.mlmodel */,
+				086F3480217710CB002CF6EA /* Assets.xcassets */,
+				086F3485217710CB002CF6EA /* Info.plist */,
+				76A03858240A9A35003E27B8 /* deeplab-ios.xcdatamodeld */,
+				761D72B8240D624B0086D2CE /* deeplab-ios-Bridging-Header.h */,
+				7657F264240EC83400B58112 /* tutorial.swift */,
+			);
+			path = "deeplab-ios";
+			sourceTree = "<group>";
+		};
+		76A03851240A72EB003E27B8 /* foto */ = {
+			isa = PBXGroup;
+			children = (
+				76A0384D240A721A003E27B8 /* Palermo2.jpeg */,
+				086F349B21789912002CF6EA /* test.jpg */,
+				76A03849240A70E3003E27B8 /* unnamed.jpg */,
+				76A0384B240A7125003E27B8 /* Palermo.jpg */,
+				76A03856240A73D5003E27B8 /* gucci.PNG */,
+				76A03854240A73CC003E27B8 /* Palermo3.JPG */,
+			);
+			path = foto;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		086F3475217710C7002CF6EA /* HangMe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 086F3488217710CB002CF6EA /* Build configuration list for PBXNativeTarget "HangMe" */;
+			buildPhases = (
+				086F3472217710C7002CF6EA /* Sources */,
+				086F3473217710C7002CF6EA /* Frameworks */,
+				086F3474217710C7002CF6EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HangMe;
+			productName = "deeplab-ios";
+			productReference = 086F3476217710C7002CF6EA /* HangMe.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		086F346E217710C7002CF6EA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1000;
+				LastUpgradeCheck = 1000;
+				ORGANIZATIONNAME = THC;
+				TargetAttributes = {
+					086F3475217710C7002CF6EA = {
+						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1110;
+					};
+				};
+			};
+			buildConfigurationList = 086F3471217710C7002CF6EA /* Build configuration list for PBXProject "HangMe" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 086F346D217710C7002CF6EA;
+			productRefGroup = 086F3477217710C7002CF6EA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				086F3475217710C7002CF6EA /* HangMe */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		086F3474217710C7002CF6EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				086F3484217710CB002CF6EA /* LaunchScreen.storyboard in Resources */,
+				086F3481217710CB002CF6EA /* Assets.xcassets in Resources */,
+				76A0384E240A721A003E27B8 /* Palermo2.jpeg in Resources */,
+				086F347F217710C7002CF6EA /* Main.storyboard in Resources */,
+				76A03857240A73D5003E27B8 /* gucci.PNG in Resources */,
+				76A0384A240A70E3003E27B8 /* unnamed.jpg in Resources */,
+				76A0384C240A7125003E27B8 /* Palermo.jpg in Resources */,
+				76A03855240A73CC003E27B8 /* Palermo3.JPG in Resources */,
+				086F349C21789912002CF6EA /* test.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		086F3472217710C7002CF6EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76C6403E240BD126002F6183 /* Scarpe.swift in Sources */,
+				76C6403C240BD116002F6183 /* Pantaloni.swift in Sources */,
+				76C6403A240BD106002F6183 /* Maglie.swift in Sources */,
+				76A0385A240A9A35003E27B8 /* deeplab-ios.xcdatamodeld in Sources */,
+				761D72B7240D60F50086D2CE /* NuovoVestito.swift in Sources */,
+				086F347C217710C7002CF6EA /* ViewController.swift in Sources */,
+				76FBFE94240C0AE1004449FB /* Outfit.swift in Sources */,
+				086F348C21771162002CF6EA /* Deeplab.mlmodel in Sources */,
+				76A0387F240A9E7B003E27B8 /* DatabaseHelper.swift in Sources */,
+				76FBFE92240C061D004449FB /* NuovoOutfit.swift in Sources */,
+				086F349A21782BB4002CF6EA /* GraySegmentFilter.swift in Sources */,
+				76FBFE96240C0B5D004449FB /* OutfitSalvati.swift in Sources */,
+				76B0AC11240EB63500CC027E /* EliminaVestito.swift in Sources */,
+				7657F265240EC83400B58112 /* tutorial.swift in Sources */,
+				086F347A217710C7002CF6EA /* AppDelegate.swift in Sources */,
+				34364878240F061F00B22B85 /* ViewControllerTutorial.swift in Sources */,
+				086F349021771B58002CF6EA /* UIImage+Segmentation.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		086F347D217710C7002CF6EA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				086F347E217710C7002CF6EA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		086F3482217710CB002CF6EA /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				086F3483217710CB002CF6EA /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		086F3486217710CB002CF6EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		086F3487217710CB002CF6EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		086F3489217710CB002CF6EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = RL6WJW484U;
+				INFOPLIST_FILE = "deeplab-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = THC.VirtualCloset;
+				PRODUCT_NAME = HangMe;
+				SWIFT_OBJC_BRIDGING_HEADER = "deeplab-ios/deeplab-ios-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		086F348A217710CB002CF6EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = RL6WJW484U;
+				INFOPLIST_FILE = "deeplab-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = THC.VirtualCloset;
+				PRODUCT_NAME = HangMe;
+				SWIFT_OBJC_BRIDGING_HEADER = "deeplab-ios/deeplab-ios-Bridging-Header.h";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		086F3471217710C7002CF6EA /* Build configuration list for PBXProject "HangMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				086F3486217710CB002CF6EA /* Debug */,
+				086F3487217710CB002CF6EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		086F3488217710CB002CF6EA /* Build configuration list for PBXNativeTarget "HangMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				086F3489217710CB002CF6EA /* Debug */,
+				086F348A217710CB002CF6EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		76A03858240A9A35003E27B8 /* deeplab-ios.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				76A03859240A9A35003E27B8 /* Vestiti.xcdatamodel */,
+			);
+			currentVersion = 76A03859240A9A35003E27B8 /* Vestiti.xcdatamodel */;
+			path = "deeplab-ios.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 086F346E217710C7002CF6EA /* Project object */;
+}

@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+__MACOSX/
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Secrets
+.env
+*.p12
+*.mobileprovision
+*.cer
