@@ -10,6 +10,8 @@ enum ImageProcessing {
 
     static let latoMassimoFoto: CGFloat = 1600
     static let latoMassimoMiniatura: CGFloat = 400
+    /// I ritagli sono PNG, più pesanti: li teniamo un po' più piccoli.
+    static let latoMassimoRitaglio: CGFloat = 1200
 
     enum Errore: Error {
         case immagineNonValida
@@ -21,13 +23,20 @@ enum ImageProcessing {
         return try prepara(originale)
     }
 
-    static func prepara(_ immagine: UIImage) throws -> Risultato {
-        let foto = ridimensiona(immagine, latoMassimo: latoMassimoFoto)
+    /// Con `trasparente` le immagini sono salvate in PNG per conservare lo sfondo trasparente
+    /// del ritaglio; altrimenti in JPEG, più leggero.
+    static func prepara(_ immagine: UIImage, trasparente: Bool = false) throws -> Risultato {
+        let foto = ridimensiona(immagine, latoMassimo: trasparente ? latoMassimoRitaglio : latoMassimoFoto)
         let miniatura = ridimensiona(immagine, latoMassimo: latoMassimoMiniatura)
-        guard let datiFoto = foto.jpegData(compressionQuality: 0.85),
-              let datiMiniatura = miniatura.jpegData(compressionQuality: 0.8)
-        else { throw Errore.immagineNonValida }
+        let datiFoto = trasparente ? foto.pngData() : foto.jpegData(compressionQuality: 0.85)
+        let datiMiniatura = trasparente ? miniatura.pngData() : miniatura.jpegData(compressionQuality: 0.8)
+        guard let datiFoto, let datiMiniatura else { throw Errore.immagineNonValida }
         return Risultato(foto: datiFoto, miniatura: datiMiniatura)
+    }
+
+    /// Foto originale compressa, conservata per poter tornare indietro dallo scontorno.
+    static func originale(_ immagine: UIImage) -> Data? {
+        ridimensiona(immagine, latoMassimo: latoMassimoFoto).jpegData(compressionQuality: 0.8)
     }
 
     /// Ridimensiona mantenendo le proporzioni, senza mai ingrandire.
