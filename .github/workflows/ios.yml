@@ -1,0 +1,41 @@
+name: iOS
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Versione Xcode
+        run: xcodebuild -version
+
+      - name: Scegli un simulatore iPhone
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available -j \
+            | python3 -c 'import json,sys; d=json.load(sys.stdin)["devices"]; print(next(x["udid"] for k in sorted(d, reverse=True) if "iOS" in k for x in d[k] if x["name"].startswith("iPhone")))')
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          xcrun simctl list devices | grep "$UDID"
+
+      - name: Build e test
+        run: |
+          set +e
+          xcodebuild test \
+            -project Hook.xcodeproj \
+            -scheme Hook \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            CODE_SIGNING_ALLOWED=NO > xcodebuild.log 2>&1
+          STATUS=$?
+          grep -E "error:|warning:|Test case|Test run|passed|failed|\*\* " xcodebuild.log | grep -v "^ld: warning" | head -300
+          if [ $STATUS -ne 0 ]; then tail -80 xcodebuild.log; fi
+          exit $STATUS
