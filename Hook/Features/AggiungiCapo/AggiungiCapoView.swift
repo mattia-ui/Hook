@@ -12,6 +12,10 @@ struct AggiungiCapoView: View {
     @State private var originale: UIImage?
     @State private var analisi: AnalisiCapo?
     @State private var usaRitaglio = true
+    /// Ritocco a mano: lo scontorno a piena dimensione e la sua versione ritagliata.
+    @State private var scontornoRitoccato: UIImage?
+    @State private var ritaglioRitoccato: UIImage?
+    @State private var mostraRitocco = false
     @State private var categoria: Categoria = .top
     @State private var nome = ""
     @State private var mostraFotocamera = false
@@ -23,7 +27,7 @@ struct AggiungiCapoView: View {
 
     /// L'immagine che verrà salvata: il ritaglio se disponibile e scelto, altrimenti l'originale.
     private var immagineFinale: UIImage? {
-        if usaRitaglio, let ritaglio = analisi?.ritaglio { return ritaglio }
+        if usaRitaglio, let ritaglio = ritaglioRitoccato ?? analisi?.ritaglio { return ritaglio }
         return originale
     }
 
@@ -44,6 +48,13 @@ struct AggiungiCapoView: View {
                         if analisi.ritaglio != nil {
                             Toggle(isOn: $usaRitaglio.animation()) {
                                 Label("Rimuovi sfondo", systemImage: "scissors")
+                            }
+                            if usaRitaglio, analisi.scontorno != nil {
+                                Button {
+                                    mostraRitocco = true
+                                } label: {
+                                    Label("Ritocca a mano", systemImage: "eraser")
+                                }
                             }
                         } else {
                             Label("Sfondo non rimosso: il capo non è stato isolato in questa foto.",
@@ -97,6 +108,21 @@ struct AggiungiCapoView: View {
             .onChange(of: selezioneFoto) { _, nuovo in
                 guard let nuovo else { return }
                 Task { await carica(nuovo) }
+            }
+            .fullScreenCover(isPresented: $mostraRitocco) {
+                if let scontorno = analisi?.scontorno {
+                    RitoccoView(
+                        ritaglio: scontornoRitoccato ?? scontorno.ritaglio,
+                        originale: scontorno.originale
+                    ) { nuovo in
+                        if let ritagliato = ImageProcessing.ritagliaAiBordi(nuovo) {
+                            scontornoRitoccato = nuovo
+                            ritaglioRitoccato = ritagliato
+                        } else {
+                            errore = "Hai cancellato tutto il capo: tengo il ritaglio di prima."
+                        }
+                    }
+                }
             }
             .fullScreenCover(isPresented: $mostraFotocamera) {
                 CameraPicker { foto in
@@ -215,6 +241,8 @@ struct AggiungiCapoView: View {
         originale = foto
         analisi = nil
         usaRitaglio = true
+        scontornoRitoccato = nil
+        ritaglioRitoccato = nil
         inAnalisi = true
         let risultato = await Task.detached(priority: .userInitiated) {
             AnalisiService.analizza(foto)
