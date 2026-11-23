@@ -10,9 +10,18 @@ struct CapoThumbnail: View {
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 .fill(Color(.secondarySystemBackground))
             if let dati = capo.miniatura, let immagine = UIImage(data: dati) {
-                Image(uiImage: immagine)
-                    .resizable()
-                    .scaledToFill()
+                if capo.fotoOriginale != nil {
+                    // Capo scontornato: intero e centrato, con un'ombra morbida.
+                    Image(uiImage: immagine)
+                        .resizable()
+                        .scaledToFit()
+                        .padding(10)
+                        .shadow(color: .black.opacity(0.15), radius: 6, y: 3)
+                } else {
+                    Image(uiImage: immagine)
+                        .resizable()
+                        .scaledToFill()
+                }
             } else {
                 Image(systemName: capo.categoria.simbolo)
                     .font(.title)

@@ -2,20 +2,30 @@ import SwiftUI
 import SwiftData
 import PhotosUI
 
-/// Foglio per aggiungere un capo: foto da libreria o fotocamera, categoria, nome.
+/// Foglio per aggiungere un capo: foto da libreria o fotocamera, poi scontorno,
+/// categoria e colore proposti in automatico. L'utente conferma o corregge.
 struct AggiungiCapoView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
 
     @State private var selezioneFoto: PhotosPickerItem?
-    @State private var immagine: UIImage?
+    @State private var originale: UIImage?
+    @State private var analisi: AnalisiCapo?
+    @State private var usaRitaglio = true
     @State private var categoria: Categoria = .top
     @State private var nome = ""
     @State private var mostraFotocamera = false
-    @State private var inCaricamento = false
+    @State private var inAnalisi = false
+    @State private var inSalvataggio = false
     @State private var errore: String?
 
     private let fotocameraDisponibile = UIImagePickerController.isSourceTypeAvailable(.camera)
+
+    /// L'immagine che verrà salvata: il ritaglio se disponibile e scelto, altrimenti l'originale.
+    private var immagineFinale: UIImage? {
+        if usaRitaglio, let ritaglio = analisi?.ritaglio { return ritaglio }
+        return originale
+    }
 
     var body: some View {
         NavigationStack {
@@ -24,50 +34,47 @@ struct AggiungiCapoView: View {
                     anteprima
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
-                    HStack(spacing: 12) {
-                        PhotosPicker(selection: $selezioneFoto, matching: .images) {
-                            Label("Libreria", systemImage: "photo.on.rectangle")
-                                .frame(maxWidth: .infinity)
-                        }
-                        .buttonStyle(.bordered)
-                        if fotocameraDisponibile {
-                            Button {
-                                mostraFotocamera = true
-                            } label: {
-                                Label("Fotocamera", systemImage: "camera")
-                                    .frame(maxWidth: .infinity)
-                            }
-                            .buttonStyle(.bordered)
-                        }
-                    }
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
+                    sorgenti
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets())
                 }
 
-                Section("Categoria") {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 88), spacing: 8)], spacing: 8) {
-                        ForEach(Categoria.allCases) { valore in
-                            Button {
-                                categoria = valore
-                            } label: {
-                                VStack(spacing: 4) {
-                                    Image(systemName: valore.simbolo)
-                                        .font(.title3)
-                                    Text(valore.nome)
-                                        .font(.caption)
-                                }
-                                .frame(maxWidth: .infinity, minHeight: 56)
-                                .background(
-                                    categoria == valore ? Color.accentColor.opacity(0.18) : Color(.tertiarySystemFill),
-                                    in: RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                )
-                                .foregroundStyle(categoria == valore ? Color.accentColor : Color.primary)
+                if let analisi, originale != nil {
+                    Section {
+                        if analisi.ritaglio != nil {
+                            Toggle(isOn: $usaRitaglio.animation()) {
+                                Label("Rimuovi sfondo", systemImage: "scissors")
                             }
-                            .buttonStyle(.plain)
-                            .accessibilityAddTraits(categoria == valore ? .isSelected : [])
+                        } else {
+                            Label("Sfondo non rimosso: il capo non è stato isolato in questa foto.",
+                                  systemImage: "exclamationmark.triangle")
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                        }
+                        if let colore = analisi.colore {
+                            HStack {
+                                Label("Colore", systemImage: "paintpalette")
+                                Spacer()
+                                Circle()
+                                    .fill(Color(uiColor: UIColor(hex: colore.hex) ?? .gray))
+                                    .frame(width: 18, height: 18)
+                                    .overlay(Circle().strokeBorder(.quaternary))
+                                Text(colore.nome)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
                     }
-                    .padding(.vertical, 4)
+                }
+
+                Section {
+                    grigliaCategorie
+                } header: {
+                    Text("Categoria")
+                } footer: {
+                    if let suggerita = analisi?.categoriaSuggerita {
+                        Label("Suggerita in automatico: \(suggerita.nome). Tocca per cambiarla.",
+                              systemImage: "sparkles")
+                    }
                 }
 
                 Section("Nome") {
@@ -84,7 +91,7 @@ struct AggiungiCapoView: View {
                     Button("Salva") {
                         Task { await salva() }
                     }
-                    .disabled(immagine == nil || inCaricamento)
+                    .disabled(originale == nil || inAnalisi || inSalvataggio)
                 }
             }
             .onChange(of: selezioneFoto) { _, nuovo in
@@ -93,28 +100,34 @@ struct AggiungiCapoView: View {
             }
             .fullScreenCover(isPresented: $mostraFotocamera) {
                 CameraPicker { foto in
-                    immagine = foto
+                    Task { await analizza(foto) }
                 }
                 .ignoresSafeArea()
             }
-            .alert("Qualcosa è andato storto", isPresented: Binding(get: { errore != nil }, set: { if !$0 { errore = nil } })) {
+            .alert("Qualcosa è andato storto",
+                   isPresented: Binding(get: { errore != nil }, set: { if !$0 { errore = nil } })) {
                 Button("OK", role: .cancel) {}
             } message: {
                 Text(errore ?? "")
             }
+            .sensoryFeedback(.success, trigger: analisi?.ritaglio != nil)
         }
     }
 
-    @ViewBuilder
+    // MARK: - Viste
+
     private var anteprima: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(Color(.secondarySystemBackground))
-            if let immagine {
-                Image(uiImage: immagine)
+            if let immagineFinale {
+                Image(uiImage: immagineFinale)
                     .resizable()
                     .scaledToFit()
-                    .padding(8)
+                    .padding(usaRitaglio && analisi?.ritaglio != nil ? 24 : 8)
+                    .shadow(color: .black.opacity(usaRitaglio && analisi?.ritaglio != nil ? 0.2 : 0), radius: 10, y: 6)
+                    .transition(.opacity.combined(with: .scale(scale: 0.96)))
+                    .id(usaRitaglio)
             } else {
                 VStack(spacing: 8) {
                     Image(systemName: "tshirt")
@@ -124,41 +137,116 @@ struct AggiungiCapoView: View {
                 }
                 .foregroundStyle(.secondary)
             }
-            if inCaricamento {
-                ProgressView()
+            if inAnalisi {
+                VStack(spacing: 8) {
+                    ProgressView()
+                    Text("Sto isolando il capo…")
+                        .font(.footnote)
+                }
+                .padding(12)
+                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
         }
-        .frame(height: 320)
+        .frame(height: 340)
     }
 
+    private var sorgenti: some View {
+        HStack(spacing: 12) {
+            PhotosPicker(selection: $selezioneFoto, matching: .images) {
+                Label("Libreria", systemImage: "photo.on.rectangle")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            if fotocameraDisponibile {
+                Button {
+                    mostraFotocamera = true
+                } label: {
+                    Label("Fotocamera", systemImage: "camera")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+            }
+        }
+        .disabled(inAnalisi)
+    }
+
+    private var grigliaCategorie: some View {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 88), spacing: 8)], spacing: 8) {
+            ForEach(Categoria.allCases) { valore in
+                Button {
+                    categoria = valore
+                } label: {
+                    VStack(spacing: 4) {
+                        Image(systemName: valore.simbolo)
+                            .font(.title3)
+                        Text(valore.nome)
+                            .font(.caption)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 56)
+                    .background(
+                        categoria == valore ? Color.accentColor.opacity(0.18) : Color(.tertiarySystemFill),
+                        in: RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    )
+                    .foregroundStyle(categoria == valore ? Color.accentColor : Color.primary)
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(categoria == valore ? .isSelected : [])
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    // MARK: - Azioni
+
     private func carica(_ elemento: PhotosPickerItem) async {
-        inCaricamento = true
-        defer { inCaricamento = false }
         do {
             guard let dati = try await elemento.loadTransferable(type: Data.self),
                   let foto = UIImage(data: dati) else {
                 errore = "Non riesco ad aprire questa foto."
                 return
             }
-            immagine = foto
+            await analizza(foto)
         } catch {
             errore = "Non riesco ad aprire questa foto."
         }
     }
 
+    private func analizza(_ foto: UIImage) async {
+        originale = foto
+        analisi = nil
+        usaRitaglio = true
+        inAnalisi = true
+        let risultato = await Task.detached(priority: .userInitiated) {
+            AnalisiService.analizza(foto)
+        }.value
+        // Se nel frattempo è stata scelta un'altra foto, questo risultato non serve più.
+        guard originale === foto else { return }
+        withAnimation {
+            analisi = risultato
+            if let suggerita = risultato.categoriaSuggerita {
+                categoria = suggerita
+            }
+            inAnalisi = false
+        }
+    }
+
     private func salva() async {
-        guard let immagine else { return }
-        inCaricamento = true
-        defer { inCaricamento = false }
+        guard let originale, let immagineFinale else { return }
+        inSalvataggio = true
+        defer { inSalvataggio = false }
+        let ritagliato = immagineFinale !== originale
         do {
-            let risultato = try await Task.detached(priority: .userInitiated) {
-                try ImageProcessing.prepara(immagine)
+            let (risultato, datiOriginale) = try await Task.detached(priority: .userInitiated) {
+                let risultato = try ImageProcessing.prepara(immagineFinale, trasparente: ritagliato)
+                return (risultato, ritagliato ? ImageProcessing.originale(originale) : nil)
             }.value
             let capo = Capo(
                 nome: nome.trimmingCharacters(in: .whitespacesAndNewlines),
                 categoria: categoria,
                 foto: risultato.foto,
-                miniatura: risultato.miniatura
+                miniatura: risultato.miniatura,
+                fotoOriginale: datiOriginale,
+                coloreHex: analisi?.colore?.hex
             )
             context.insert(capo)
             dismiss()
