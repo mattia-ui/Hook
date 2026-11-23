@@ -71,7 +71,8 @@ struct MascheraTests {
             UIColor.blue.setFill()
             ctx.fill(CGRect(x: 10, y: 20, width: 30, height: 40))
         }
-        let rettangolo = try #require(Maschera.rettangoloOpaco(try #require(immagine.cgImage)))
+        let cg = try #require(immagine.cgImage)
+        let rettangolo = try #require(Maschera.rettangoloOpaco(cg))
         #expect(rettangolo == CGRect(x: 10, y: 20, width: 30, height: 40))
     }
 
