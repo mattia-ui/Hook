@@ -14,7 +14,7 @@ jobs:
     runs-on: macos-15
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Versione Xcode
         run: xcodebuild -version
@@ -36,6 +36,10 @@ jobs:
             -destination "id=${{ steps.sim.outputs.udid }}" \
             CODE_SIGNING_ALLOWED=NO > xcodebuild.log 2>&1
           STATUS=$?
-          grep -E "error:|warning:|Test case|Test run|passed|failed|\*\* " xcodebuild.log | grep -v "^ld: warning" | head -300
+          echo "::group::Errori e avvisi del compilatore"
+          grep -E "\.swift:[0-9]+:[0-9]+: (error|warning):" xcodebuild.log | sort -u | head -200
+          echo "::endgroup::"
+          echo "Riepilogo test:"
+          grep -E "^(✔|✘|◇)? ?Test .*(passed|failed)|Test run with|Executed [0-9]+ test|\*\* (TEST|BUILD) (SUCCEEDED|FAILED) \*\*" xcodebuild.log | tail -40
           if [ $STATUS -ne 0 ]; then tail -80 xcodebuild.log; fi
           exit $STATUS
