@@ -50,7 +50,11 @@ enum SuggerimentoOutfit {
     /// Seme del giorno: cambia a mezzanotte.
     static func semeDelGiorno(_ data: Date = .now, calendario: Calendar = .current) -> UInt64 {
         let componenti = calendario.dateComponents([.year, .month, .day], from: data)
-        return UInt64((componenti.year ?? 0) * 10_000 + (componenti.month ?? 0) * 100 + (componenti.day ?? 0))
+        let anno: Int = componenti.year ?? 0
+        let mese: Int = componenti.month ?? 0
+        let giorno: Int = componenti.day ?? 0
+        let valore: Int = anno * 10_000 + mese * 100 + giorno
+        return UInt64(valore)
     }
 }
 
